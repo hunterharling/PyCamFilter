@@ -20,22 +20,22 @@ def saturateImg(img, amount):
     return imgRGB
 
 
-def saturateChannel(img, colorChannel, amount):
+def saturateChannels(img, colorChannels):
     imgRGB = img.copy()
 
-    # channel: 0=B, 1=G, 2=R
-    channel = 0
-    if colorChannel == "R":
-        channel = 2
-    elif colorChannel == "G":
-        channel = 1
+    # RGB saturation
+    s = colorChannels[3]
+    if s > 1.0:
+        imgRGB = saturateImg(img, s)
 
-    imgRGB[:, :, channel] = np.clip(imgRGB[:, :, channel] * amount, 0, 255)
+    # B,G,R channels
+    for i in range(3):
+        imgRGB[:, :, i] = np.clip(imgRGB[:, :, i] * colorChannels[i], 0, 255)
 
     return imgRGB
 
 
-def filteredCam(camera, colorChannel, saturationAmount, fps, pref_width, pref_height):
+def filteredCam(camera, colorChannels, fps, pref_width, pref_height):
     vc = cv2.VideoCapture(camera)
 
     vc.set(cv2.CAP_PROP_FRAME_WIDTH, pref_width)
@@ -56,12 +56,7 @@ def filteredCam(camera, colorChannel, saturationAmount, fps, pref_width, pref_he
             if not ret:
                 raise RuntimeError('Error fetching frame')
 
-            if colorChannel == "A":
-                frame = saturateImg(frame, saturationAmount)
-            else:
-                frame = saturateChannel(
-                    frame, colorChannel, saturationAmount
-                )
+            frame = saturateChannels(frame, colorChannels)
 
             cam.send(frame)
             cam.sleep_until_next_frame()
@@ -71,16 +66,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--camera", type=int, default=0,
                         help="ID of webcam input device (default: 0)")
-    parser.add_argument("--channel", choices=["R", "G", "B", "A"],
-                        default="A", help="Channel to saturate: R, G, B, or A (all)")
-    parser.add_argument("--amount", type=float, default=1.0,
-                        help="Amount of saturation to be applied")
     parser.add_argument("--fps", type=int, default=30,
                         help="Frames per second")
     parser.add_argument("--width", type=int, default=1920,
                         help="Preferred width")
     parser.add_argument("--height", type=int, default=1080,
                         help="Preferred height")
+    parser.add_argument("--red", type=float, default=1.0, help="Red saturation")
+    parser.add_argument("--green", type=float, default=1.0, help="Green saturation")
+    parser.add_argument("--blue", type=float, default=1.0, help="Blue saturation")
+    parser.add_argument("--all", type=float, default=1.0, help="RGB saturation")
     args = parser.parse_args()
 
-    filteredCam(args.camera, args.channel, args.amount, args.fps, args.width, args.height)
+    filteredCam(
+        args.camera, 
+        [args.blue, args.green, args.red, args.all,],
+        args.fps, 
+        args.width, 
+        args.height
+    )
