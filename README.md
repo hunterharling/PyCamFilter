@@ -18,20 +18,22 @@ pip install -r requirements.txt
 ### Usage
 After installing and starting the OBS Virtual Camera, use the filter by running `python filterCam.py`.
 Arguments:
-`camera`: The camera device ID to use as input. Check device IDs to determine which camera to use (it will likely be 0 or 1). Default: 0
-`channel`: The color channel to apply the filter to. Options are "R", "G", "B", and "A". "A" saturates/desaturates the entire image, while the others apply to the specific channel. Default: "A"
-`amount`: Float, less than 1.0 desaturates, greater than 1.0 saturates. Default: 1.0
-`width`: Preferred width of the camera image. Default: 1920
-`height`: Preferred height of the camera image. Default: 1080
-`fps`: Preferred fps of the camera. Default: 30
+`--camera`: The camera device ID to use as input. Check device IDs to determine which camera to use (it will likely be 0 or 1). Default: 0
+`--blue`: Float, amount of saturation to apply to the blue channel. Default: 1.0
+`--green`: Float, amount of saturation to apply to the green channel. Default: 1.0
+`--red`: Float, amount of saturation to apply to the red channel Default: 1.0
+`--all`: Float, amount of saturation to apply to all color channels. Default: 1.0
+`--width`: Preferred width of the camera image. Default: 1920
+`--height`: Preferred height of the camera image. Default: 1080
+`--fps`: Preferred fps of the camera. Default: 30
   
 Example:
 ```sh
-python fitlerCam.py --camera 1 --channel "R" --amount 0.8
+python fitlerCam.py --camera 1 --blue 1.1 --green 0.8 --red 0.8 
 ```
-This example uses camera 1 as the input device and desaturates the red channel by 20%
+This example uses camera 1 as the input device, desaturates the red and green channels by 20%, and saturates the blue channel by 10%
 
 You can also increase the saturation and apply to all color channels:
 ```sh
-python fitlerCam.py --camera 1 --channel "A" --amount 1.5
+python fitlerCam.py --camera 1 --all 1.5
 ```
