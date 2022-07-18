@@ -17,15 +17,17 @@ pip install -r requirements.txt
 
 ### Usage
 After installing and starting the OBS Virtual Camera, use the filter by running `python filterCam.py`.
-Arguments:
-`--camera`: The camera device ID to use as input. Check device IDs to determine which camera to use (it will likely be 0 or 1). Default: 0
-`--blue`: Float, amount of saturation to apply to the blue channel. Default: 1.0
-`--green`: Float, amount of saturation to apply to the green channel. Default: 1.0
-`--red`: Float, amount of saturation to apply to the red channel Default: 1.0
-`--all`: Float, amount of saturation to apply to all color channels. Default: 1.0
-`--width`: Preferred width of the camera image. Default: 1920
-`--height`: Preferred height of the camera image. Default: 1080
+
+### Arguments:
+`--camera`: The camera device ID to use as input. Check device IDs to determine which camera to use (it will likely be 0 or 1). Default: 0 <br/>
+`--blue`: Float, amount of saturation to apply to the blue channel. Default: 1.0 <br/>
+`--green`: Float, amount of saturation to apply to the green channel. Default: 1.0 <br/>
+`--red`: Float, amount of saturation to apply to the red channel Default: 1.0 <br/>
+`--all`: Float, amount of saturation to apply to all color channels. Default: 1.0 <br/>
+`--width`: Preferred width of the camera image. Default: 1920 <br/>
+`--height`: Preferred height of the camera image. Default: 1080 <br/>
 `--fps`: Preferred fps of the camera. Default: 30
+
   
 Example:
 ```sh
